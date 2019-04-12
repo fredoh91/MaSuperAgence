@@ -20,7 +20,7 @@ Class PropertyController extends AbstractController
      */
     public function index () : Response
     {   
-        $property=$this->repository->find(1);
+        $property=$this->repository->findAllVisible();
         dump($property);
 //        $repository = $this->getDoctrine()->getRepository(Property::class);
 //        dump($repository);
