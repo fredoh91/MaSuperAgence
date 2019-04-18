@@ -1,8 +1,9 @@
 <?php
 namespace App\Controller;
 
-use App\Repository\PropertyRepository;
 use App\Entity\Property;
+use App\Repository\PropertyRepository;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -10,9 +11,10 @@ use Symfony\Component\Routing\Annotation\Route;
 Class PropertyController extends AbstractController
 {   
     private $repository;
-    public function __construct(PropertyRepository $repository)
+    public function __construct(PropertyRepository $repository, ObjectManager $em)
     {
         $this->repository = $repository;
+        $this->em = $em;
     }
     /**
      * @Route("/biens", name= "property.index")
@@ -20,8 +22,14 @@ Class PropertyController extends AbstractController
      */
     public function index () : Response
     {   
-        $property=$this->repository->findAllVisible();
-        dump($property);
+//        $property=$this->repository->findAllVisible();
+        //dump($property);
+//        $property[0]->setSold(true);
+//        $this->em->flush();
+        return $this->render('property/index.html.twig', [
+            'current_menu' => 'properties'
+        ]);
+        
 //        $repository = $this->getDoctrine()->getRepository(Property::class);
 //        dump($repository);
 //        $property = new Property();
@@ -40,8 +48,5 @@ Class PropertyController extends AbstractController
 //        $em->persist($property);
 //        $em->flush();
 //        return new Response('les biens');
-        return $this->render('property/index.html.twig', [
-            'current_menu' => 'properties'
-        ]);
     }
 }
