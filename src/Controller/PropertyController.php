@@ -49,4 +49,17 @@ Class PropertyController extends AbstractController
 //        $em->flush();
 //        return new Response('les biens');
     }
+    /**
+     * 
+     * @Route("/biens/{slug}-{id}", name= "property.show",requirements={"slug":"[a-z0-9\-]*"})
+     * @return Response
+     */
+    public function show($slug,$id): Response 
+    {
+        $property=$this->repository->find($id);
+        return $this->render('property/show.html.twig', [
+            'property'=>$property,
+            'current_menu'=>'properties'
+        ]);
+    }
 }
